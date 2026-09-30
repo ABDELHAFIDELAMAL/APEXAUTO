@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="APEX AUTO is your modern automobile workshop for expert diagnostics, repairs, maintenance, and fleet service."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>APEX AUTO — Precision in every detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              ink: "#101114",
+              accent: "#d5fb55",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        scroll-behavior: smooth;
+        scroll-padding-top: 6rem;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+
+      .nav-link-hover {
+        position: relative;
+      }
+
+      .nav-link-hover::after {
+        position: absolute;
+        right: 0;
+        bottom: -6px;
+        left: 0;
+        height: 2px;
+        content: "";
+        background: #101114;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease;
+      }
+
+      .nav-link-hover:hover::after,
+      .nav-link-hover:focus-visible::after {
+        transform: scaleX(1);
+      }
+
+      .reveal-element {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 650ms ease, transform 650ms ease;
+      }
+
+      .reveal-element.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .vehicle-card[hidden] {
+        display: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .reveal-element {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-white text-ink antialiased selection:bg-accent selection:text-ink">
+    <header id="navbar" class="sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-md transition-shadow">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-[72px] items-center justify-between">
+          <a href="#home" class="group flex items-center gap-3" aria-label="APEX AUTO home">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-white transition-transform group-hover:scale-105">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.9 6.2A1.5 1.5 0 0 0 17.5 5h-11a1.5 1.5 0 0 0-1.4 1.2L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.1-5.8ZM6.9 7h10.2l1 3H5.9l1-3ZM5 17v-4h14v4H5Z" />
+                <circle cx="7.5" cy="14.5" r="1.2" />
+                <circle cx="16.5" cy="14.5" r="1.2" />
+              </svg>
+            </span>
+            <span class="text-lg font-black tracking-[0.12em]">APEX<span class="font-normal text-gray-500">AUTO</span></span>
+          </a>
+
+          <nav aria-label="Main navigation" class="hidden items-center gap-7 md:flex">
+            <a href="#home" class="nav-link-hover py-2 text-sm font-semibold">Home</a>
+            <a href="#about" class="nav-link-hover py-2 text-sm font-medium text-gray-600 transition hover:text-black">About</a>
+            <a href="#services" class="nav-link-hover py-2 text-sm font-medium text-gray-600 transition hover:text-black">Services</a>
+            <a href="#vehicles" class="nav-link-hover py-2 text-sm font-medium text-gray-600 transition hover:text-black">Vehicles</a>
+            <a href="#workshop" class="nav-link-hover py-2 text-sm font-medium text-gray-600 transition hover:text-black">Workshop</a>
+            <a href="#contact" class="nav-link-hover py-2 text-sm font-medium text-gray-600 transition hover:text-black">Contact</a>
+          </nav>
+
+          <a href="#contact" class="hidden rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-gray-800 md:inline-flex">
+            Book a service <span class="ml-2" aria-hidden="true">↗</span>
+          </a>
+
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            class="flex h-10 w-10 items-center justify-center rounded-lg text-ink transition hover:bg-gray-100 md:hidden"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg id="menu-open-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menu-close-icon" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden border-t border-gray-100 bg-white px-5 pb-5 pt-2 md:hidden">
+        <nav aria-label="Mobile navigation" class="mx-auto flex max-w-7xl flex-col">
+          <a href="#home" class="rounded-lg px-3 py-3 text-sm font-semibold hover:bg-gray-50">Home</a>
+          <a href="#about" class="rounded-lg px-3 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-black">About</a>
+          <a href="#services" class="rounded-lg px-3 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-black">Services</a>
+          <a href="#vehicles" class="rounded-lg px-3 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-black">Vehicles</a>
+          <a href="#workshop" class="rounded-lg px-3 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-black">Workshop</a>
+          <a href="#contact" class="rounded-lg px-3 py-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-black">Contact</a>
+          <a href="#contact" class="mt-3 rounded-full bg-ink px-5 py-3 text-center text-sm font-semibold text-white">Book a service</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="overflow-hidden">
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-24">
+          <div class="reveal-element">
+            <div class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3.5 py-2">
+              <span class="h-2 w-2 animate-pulse rounded-full bg-lime-500"></span>
+              <span class="text-[10px] font-bold uppercase tracking-[0.16em] sm:text-xs">Automotive care, re-engineered</span>
+            </div>
+            <h1 class="mt-7 max-w-2xl text-4xl font-black leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-6xl xl:text-7xl">
+              Precision in every
+              <span class="relative inline-block">detail<span class="absolute -bottom-1 left-0 -z-10 h-3 w-full bg-accent sm:h-4"></span></span>.
+            </h1>
+            <p class="mt-6 max-w-xl text-base leading-7 text-gray-600 sm:text-lg sm:leading-8">
+              Expert automotive service, honest advice, and modern diagnostics—bringing confidence back to every drive.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="#contact" class="inline-flex items-center justify-center rounded-full bg-ink px-7 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-gray-800">
+                Book an appointment <span class="ml-2" aria-hidden="true">↗</span>
+              </a>
+              <a href="#services" class="inline-flex items-center justify-center rounded-full border border-gray-300 px-7 py-4 text-sm font-semibold transition hover:border-ink hover:bg-gray-50">
+                Explore our services
+              </a>
+            </div>
+            <div class="mt-10 grid max-w-lg grid-cols-3 border-t border-gray-200 pt-6">
+              <div><p class="text-xl font-black sm:text-2xl">15<span class="text-gray-400">+</span></p><p class="mt-1 text-[10px] text-gray-500 sm:text-xs">Years of expertise</p></div>
+              <div class="border-l border-gray-200 pl-4 sm:pl-6"><p class="text-xl font-black sm:text-2xl">4.9<span class="text-gray-400">/5</span></p><p class="mt-1 text-[10px] text-gray-500 sm:text-xs">Customer rating</p></div>
+              <div class="border-l border-gray-200 pl-4 sm:pl-6"><p class="text-xl font-black sm:text-2xl">12k<span class="text-gray-400">+</span></p><p class="mt-1 text-[10px] text-gray-500 sm:text-xs">Happy drivers</p></div>
+            </div>
+          </div>
+
+          <div class="reveal-element relative mx-auto w-full max-w-xl lg:max-w-none">
+            <div class="absolute -inset-4 -z-10 rounded-[2rem] bg-gray-100 sm:-inset-6"></div>
+            <div class="group relative overflow-hidden rounded-[1.5rem] bg-gray-900 shadow-2xl sm:rounded-[2rem]">
+              <img
+                src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&amp;fit=crop&amp;q=85&amp;w=1400"
+                alt="Modern performance car in a studio"
+                class="h-[360px] w-full object-cover transition duration-700 group-hover:scale-105 sm:h-[480px] lg:h-[550px]"
+                fetchpriority="high"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10"></div>
+              <div class="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-white/95 px-3 py-2 text-[10px] font-bold sm:left-7 sm:top-7 sm:text-xs">
+                <span class="h-2 w-2 rounded-full bg-green-500"></span> Service center open
+              </div>
+              <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/30 bg-white/95 p-4 shadow-xl backdrop-blur sm:bottom-7 sm:left-7 sm:right-auto sm:min-w-[260px] sm:p-5">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-white">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m9 12 2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                  </span>
+                  <div><p class="text-[10px] text-gray-500">Our promise</p><p class="mt-0.5 text-xs font-bold sm:text-sm">Quality you can count on</p></div>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -right-3 -top-4 hidden animate-float rounded-2xl bg-ink px-4 py-3 text-white shadow-xl sm:block lg:-right-5">
+              <p class="text-[10px] font-semibold tracking-wider">APEX STANDARD</p>
+              <p class="mt-1 text-xs text-gray-300">Expert hands. Clear answers.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="Trust indicators" class="border-y border-gray-200 bg-gray-50">
+        <div class="mx-auto grid max-w-7xl grid-cols-2 gap-5 px-4 py-7 text-center sm:px-6 md:grid-cols-4 lg:px-8">
+          <div><p class="text-sm font-bold">Certified technicians</p><p class="mt-1 text-xs text-gray-500">Trained for every make</p></div>
+          <div><p class="text-sm font-bold">Upfront estimates</p><p class="mt-1 text-xs text-gray-500">No surprise repairs</p></div>
+          <div><p class="text-sm font-bold">Quality parts</p><p class="mt-1 text-xs text-gray-500">Built to last</p></div>
+          <div><p class="text-sm font-bold">Work guaranteed</p><p class="mt-1 text-xs text-gray-500">Care you can trust</p></div>
+        </div>
+      </section>
+
+      <section id="about" class="py-20 sm:py-24 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+            <div class="reveal-element relative">
+              <img
+                src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&amp;fit=crop&amp;q=85&amp;w=1200"
+                alt="Technician carefully inspecting a vehicle in the workshop"
+                loading="lazy"
+                class="h-[330px] w-full rounded-3xl object-cover sm:h-[440px]"
+              />
+              <div class="absolute -bottom-5 right-4 rounded-2xl bg-accent p-4 shadow-xl sm:right-8 sm:p-5">
+                <p class="text-2xl font-black sm:text-3xl">15<span class="text-lg">+</span></p>
+                <p class="mt-1 text-[10px] font-semibold uppercase tracking-wider">Years on the road</p>
+              </div>
+            </div>
+            <div class="reveal-element">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">A better kind of garage</p>
+              <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Great service starts with trust.</h2>
+              <p class="mt-5 leading-7 text-gray-600">
+                Cars are complicated. Getting them cared for shouldn’t be. At APEX AUTO, skilled technicians pair proven know-how with modern diagnostic tools to make every visit straightforward.
+              </p>
+              <p class="mt-4 leading-7 text-gray-600">
+                We take the time to explain what your vehicle needs, show you the options, and get your approval before work begins. No jargon. No pressure. Just thoughtful automotive care.
+              </p>
+              <div class="mt-7 grid grid-cols-2 gap-3">
+                <div class="rounded-xl border border-gray-200 p-4"><p class="text-sm font-bold">Clear communication</p><p class="mt-1 text-xs leading-5 text-gray-500">Updates at every step</p></div>
+                <div class="rounded-xl border border-gray-200 p-4"><p class="text-sm font-bold">Modern diagnostics</p><p class="mt-1 text-xs leading-5 text-gray-500">Get to the root cause</p></div>
+              </div>
+              <a href="#contact" class="mt-7 inline-flex items-center text-sm font-bold underline decoration-gray-300 underline-offset-4 transition hover:decoration-ink">
+                Get to know our team <span class="ml-2" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+          <div class="mt-20 grid grid-cols-2 gap-3 sm:mt-24 sm:grid-cols-4 sm:gap-5">
+            <div class="reveal-element rounded-2xl border border-gray-200 p-5 text-center sm:p-7"><p class="stat-counter text-3xl font-black sm:text-4xl" data-target="12000" data-suffix="+">0</p><p class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gray-500 sm:text-xs">Drivers served</p></div>
+            <div class="reveal-element rounded-2xl border border-gray-200 p-5 text-center sm:p-7"><p class="stat-counter text-3xl font-black sm:text-4xl" data-target="15" data-suffix="+">0</p><p class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gray-500 sm:text-xs">Years of experience</p></div>
+            <div class="reveal-element rounded-2xl border border-gray-200 p-5 text-center sm:p-7"><p class="stat-counter text-3xl font-black sm:text-4xl" data-target="4" data-suffix=".9/5">0</p><p class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gray-500 sm:text-xs">Average rating</p></div>
+            <div class="reveal-element rounded-2xl border border-gray-200 p-5 text-center sm:p-7"><p class="stat-counter text-3xl font-black sm:text-4xl" data-target="98" data-suffix="%">0</p><p class="mt-2 text-[10px] font-semibold uppercase tracking-wider text-gray-500 sm:text-xs">Would recommend</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="bg-gray-50 py-20 sm:py-24 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal-element mx-auto max-w-2xl text-center">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">What we do</p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">The right care for every mile.</h2>
+            <p class="mt-4 leading-7 text-gray-600">From routine maintenance to hard-to-find faults, our team is ready to help you get back on the road.</p>
+          </div>
+          <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 6v6l4 2m5-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Maintenance &amp; servicing</h3><p class="mt-2 text-sm leading-6 text-gray-600">Oil changes, scheduled servicing, filters, fluids, and the small checks that help prevent bigger problems.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Book maintenance <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13H4V6a1 1 0 0 1 1-1Z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m9 15 2 2 4-4" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Diagnostics &amp; repairs</h3><p class="mt-2 text-sm leading-6 text-gray-600">Accurate fault-finding and dependable repairs, with clear explanations before any work starts.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Talk to a technician <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m12 3 2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3Z" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Brakes &amp; suspension</h3><p class="mt-2 text-sm leading-6 text-gray-600">Inspections and repairs to keep your stopping power, handling, and ride feeling right.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Check availability <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M3 13h2l2-6h10l2 6h2v5h-3v-2H6v2H3v-5Zm4-1h10" /><circle cx="7.5" cy="14" r="1" /><circle cx="16.5" cy="14" r="1" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Tires &amp; alignment</h3><p class="mt-2 text-sm leading-6 text-gray-600">Tire inspections, replacements, balancing, and wheel alignment for a smoother, safer drive.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Ask about tires <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.36-6.36-2.12 2.12M7.76 16.24l-2.12 2.12m0-12.72 2.12 2.12m8.48 8.48 2.12 2.12" /><circle cx="12" cy="12" r="4" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Electrical &amp; battery</h3><p class="mt-2 text-sm leading-6 text-gray-600">Battery testing, charging systems, warning lights, and electrical troubleshooting.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Get it checked <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+            <article class="reveal-element group rounded-2xl border border-gray-200 bg-white p-6 transition hover:-translate-y-1 hover:border-ink hover:shadow-xl sm:p-7">
+              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 transition group-hover:bg-ink group-hover:text-white"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z" /></svg></span>
+              <h3 class="mt-5 text-lg font-bold">Hybrid &amp; EV care</h3><p class="mt-2 text-sm leading-6 text-gray-600">Thoughtful inspections and service for hybrid and electric vehicles. Ask our team about your model.</p>
+              <a href="#contact" class="mt-5 inline-flex text-sm font-bold">Ask our team <span class="ml-2 transition group-hover:translate-x-1">→</span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="vehicles" class="py-20 sm:py-24 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal-element flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Built for your vehicle</p>
+              <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Care for every kind of drive.</h2>
+              <p class="mt-3 max-w-xl leading-7 text-gray-600">From your daily commute to your work fleet, our technicians are ready to help.</p>
+            </div>
+            <a href="#contact" class="inline-flex w-fit items-center text-sm font-bold underline decoration-gray-300 underline-offset-4">Ask about your vehicle <span class="ml-2">↗</span></a>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filter vehicle categories">
+            <button type="button" class="vehicle-filter rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white" data-filter="all" aria-pressed="true">All vehicles</button>
+            <button type="button" class="vehicle-filter rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 transition hover:border-ink hover:text-ink" data-filter="everyday" aria-pressed="false">Everyday cars</button>
+            <button type="button" class="vehicle-filter rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 transition hover:border-ink hover:text-ink" data-filter="electric" aria-pressed="false">Hybrid &amp; electric</button>
+            <button type="button" class="vehicle-filter rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-600 transition hover:border-ink hover:text-ink" data-filter="fleet" aria-pressed="false">Work fleets</button>
+          </div>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <article class="vehicle-card reveal-element group overflow-hidden rounded-2xl border border-gray-200" data-category="everyday">
+              <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&amp;fit=crop&amp;q=80&amp;w=1000" alt="Modern everyday car" loading="lazy" class="h-56 w-full object-cover transition duration-500 group-hover:scale-105" />
+              <div class="relative bg-white p-5"><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Everyday cars</p><h3 class="mt-2 text-lg font-bold">Your daily drive</h3><p class="mt-2 text-sm leading-6 text-gray-600">Routine servicing, repairs, and checks for the car you count on every day.</p></div>
+            </article>
+            <article class="vehicle-card reveal-element group overflow-hidden rounded-2xl border border-gray-200" data-category="electric">
+              <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&amp;fit=crop&amp;q=80&amp;w=1000" alt="Electric vehicle charging" loading="lazy" class="h-56 w-full object-cover transition duration-500 group-hover:scale-105" />
+              <div class="relative bg-white p-5"><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Hybrid &amp; electric</p><h3 class="mt-2 text-lg font-bold">The next generation</h3><p class="mt-2 text-sm leading-6 text-gray-600">Contact our team to discuss inspection and service options for your EV or hybrid.</p></div>
+            </article>
+            <article class="vehicle-card reveal-element group overflow-hidden rounded-2xl border border-gray-200" data-category="fleet">
+              <img src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&amp;fit=crop&amp;q=80&amp;w=1000" alt="Commercial work vehicle on the road" loading="lazy" class="h-56 w-full object-cover transition duration-500 group-hover:scale-105" />
+              <div class="relative bg-white p-5"><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Work fleets</p><h3 class="mt-2 text-lg font-bold">Your business in motion</h3><p class="mt-2 text-sm leading-6 text-gray-600">Keep your work vehicles maintained and your team ready for the road ahead.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="workshop" class="bg-ink py-20 text-white sm:py-24 lg:py-28">
+        <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
+          <div class="reveal-element">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-accent">The APEX experience</p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Good work. No guesswork.</h2>
+            <p class="mt-5 max-w-xl leading-7 text-gray-300">We keep you in the loop from first inspection to final handoff. Here’s what you can expect when you visit.</p>
+            <div class="mt-8 space-y-6">
+              <div class="flex gap-4"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-accent">01</span><div><h3 class="text-sm font-bold">Tell us what’s going on</h3><p class="mt-1 text-sm leading-6 text-gray-400">We listen, take a look, and learn what matters to you and your vehicle.</p></div></div>
+              <div class="flex gap-4"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-accent">02</span><div><h3 class="text-sm font-bold">Get a clear plan</h3><p class="mt-1 text-sm leading-6 text-gray-400">Our team explains what we found, what it will take, and what it will cost.</p></div></div>
+              <div class="flex gap-4"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-bold text-accent">03</span><div><h3 class="text-sm font-bold">Approve the work</h3><p class="mt-1 text-sm leading-6 text-gray-400">Nothing moves ahead until you’re comfortable with the plan.</p></div></div>
+              <div class="flex gap-4"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-ink">04</span><div><h3 class="text-sm font-bold">Drive away with confidence</h3><p class="mt-1 text-sm leading-6 text-gray-400">We walk you through the work and help you plan what comes next.</p></div></div>
+            </div>
+          </div>
+          <div class="reveal-element rounded-3xl bg-white p-5 text-ink shadow-2xl sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div><p class="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-500">A visit at a glance</p><h3 class="mt-2 text-xl font-black">Your car, in good hands.</h3></div>
+              <span class="rounded-full bg-green-50 px-3 py-1.5 text-[10px] font-bold text-green-700">● &nbsp; PERSONAL CARE</span>
+            </div>
+            <div class="mt-7 space-y-0">
+              <div class="flex gap-4 border-l-2 border-gray-200 pb-7 pl-5"><span class="-ml-[27px] flex h-3 w-3 shrink-0 rounded-full border-2 border-white bg-ink ring-1 ring-ink"></span><div><p class="text-xs font-bold">Vehicle check-in</p><p class="mt-1 text-xs leading-5 text-gray-500">We note your concerns and inspect the vehicle with you.</p></div></div>
+              <div class="flex gap-4 border-l-2 border-gray-200 pb-7 pl-5"><span class="-ml-[27px] flex h-3 w-3 shrink-0 rounded-full border-2 border-white bg-gray-300"></span><div><p class="text-xs font-bold">Diagnosis &amp; estimate</p><p class="mt-1 text-xs leading-5 text-gray-500">You receive our findings and an estimate before repairs begin.</p></div></div>
+              <div class="flex gap-4 border-l-2 border-gray-200 pb-7 pl-5"><span class="-ml-[27px] flex h-3 w-3 shrink-0 rounded-full border-2 border-white bg-gray-300"></span><div><p class="text-xs font-bold">Approved service</p><p class="mt-1 text-xs leading-5 text-gray-500">Our technicians complete the work you approved.</p></div></div>
+              <div class="flex gap-4 pl-5"><span class="-ml-[27px] flex h-3 w-3 shrink-0 rounded-full border-2 border-white bg-accent ring-1 ring-accent"></span><div><p class="text-xs font-bold">Ready for pickup</p><p class="mt-1 text-xs leading-5 text-gray-500">We review the completed service and get you on your way.</p></div></div>
+            </div>
+            <a href="#contact" class="mt-8 inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800">Plan your visit <span class="ml-2">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="reveal-element mx-auto max-w-2xl text-center">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Words from our customers</p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Good people. Good experiences.</h2>
+          </div>
+          <div class="mt-10 grid gap-4 md:grid-cols-3">
+            <figure class="reveal-element rounded-2xl border border-gray-200 p-6 sm:p-7"><div class="text-sm tracking-widest text-amber-500" aria-label="5 out of 5 stars">★★★★★</div><blockquote class="mt-4 text-sm leading-6 text-gray-700">“They explained everything clearly and didn’t push unnecessary work. The whole experience was refreshingly easy.”</blockquote><figcaption class="mt-6 border-t border-gray-100 pt-4"><p class="text-sm font-bold">Taylor R.</p><p class="mt-1 text-xs text-gray-500">Local customer</p></figcaption></figure>
+            <figure class="reveal-element rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-7"><div class="text-sm tracking-widest text-amber-500" aria-label="5 out of 5 stars">★★★★★</div><blockquote class="mt-4 text-sm leading-6 text-gray-700">“Friendly team, clear updates, and my car was ready when they said it would be. I’ll definitely be back.”</blockquote><figcaption class="mt-6 border-t border-gray-200 pt-4"><p class="text-sm font-bold">Morgan L.</p><p class="mt-1 text-xs text-gray-500">Local customer</p></figcaption></figure>
+            <figure class="reveal-element rounded-2xl border border-gray-200 p-6 sm:p-7"><div class="text-sm tracking-widest text-amber-500" aria-label="5 out of 5 stars">★★★★★</div><blockquote class="mt-4 text-sm leading-6 text-gray-700">“Finally found a workshop that treats me like a person and takes the time to answer my questions.”</blockquote><figcaption class="mt-6 border-t border-gray-100 pt-4"><p class="text-sm font-bold">Jamie P.</p><p class="mt-1 text-xs text-gray-500">Local customer</p></figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="bg-gray-50 py-20 sm:py-24 lg:py-28">
+        <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+          <div class="reveal-element">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Let’s get you moving</p>
+            <h2 class="mt-4 text-3xl font-black tracking-tight sm:text-4xl">Tell us what your car needs.</h2>
+            <p class="mt-4 max-w-md leading-7 text-gray-600">Send us a few details and our team will be in touch to talk through your visit.</p>
+            <div class="mt-8 space-y-5">
+              <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">⌖</span><div><p class="text-xs font-bold">Visit our workshop</p><p class="mt-1 text-sm text-gray-600">Add your address here<br />Your City, Your Region</p></div></div>
+              <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">◷</span><div><p class="text-xs font-bold">Workshop hours</p><p class="mt-1 text-sm leading-6 text-gray-600">Monday–Friday: 8:00 AM–6:00 PM<br />Saturday: 9:00 AM–2:00 PM</p></div></div>
+              <div class="flex gap-4"><span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">✆</span><div><p class="text-xs font-bold">Call our team</p><a href="tel:+15550140210" class="mt-1 block text-sm text-gray-600 transition hover:text-black">+1 (555) 014-0210</a></div></div>
+            </div>
+          </div>
+          <form id="contact-form" class="reveal-element rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8">
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div><label for="name" class="text-xs font-semibold">Your name</label><input id="name" name="name" type="text" autocomplete="name" required class="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-ink focus:ring-2 focus:ring-ink/10" placeholder="Alex Morgan" /></div>
+              <div><label for="email" class="text-xs font-semibold">Email address</label><input id="email" name="email" type="email" autocomplete="email" required class="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-ink focus:ring-2 focus:ring-ink/10" placeholder="alex@example.com" /></div>
+              <div><label for="phone" class="text-xs font-semibold">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" class="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-ink focus:ring-2 focus:ring-ink/10" placeholder="+1 (555) 000-0000" /></div>
+              <div><label for="service" class="text-xs font-semibold">How can we help?</label><select id="service" name="service" required class="mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10"><option value="">Choose a service</option><option>Maintenance &amp; servicing</option><option>Diagnostics &amp; repairs</option><option>Brakes &amp; suspension</option><option>Tires &amp; alignment</option><option>Electrical &amp; battery</option><option>Hybrid &amp; EV care</option><option>Something else</option></select></div>
+              <div class="sm:col-span-2"><label for="message" class="text-xs font-semibold">A little more detail <span class="font-normal text-gray-400">(optional)</span></label><textarea id="message" name="message" rows="4" class="mt-2 w-full resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-ink focus:ring-2 focus:ring-ink/10" placeholder="Tell us about your vehicle and what you’ve noticed..."></textarea></div>
+              <div class="sm:col-span-2"><button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-sm font-semibold text-white transition hover:bg-gray-800 sm:w-auto">Prepare email inquiry <span class="ml-2">↗</span></button><p id="form-status" class="mt-3 min-h-5 text-xs text-gray-500" role="status" aria-live="polite">This demo form opens your email app; connect a form service to receive inquiries online.</p></div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-ink text-white">
+      <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-8 border-b border-white/10 pb-8 md:flex-row md:items-center md:justify-between">
+          <a href="#home" class="flex items-center gap-3" aria-label="APEX AUTO home">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-ink">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 6.2A1.5 1.5 0 0 0 17.5 5h-11a1.5 1.5 0 0 0-1.4 1.2L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.1-5.8ZM6.9 7h10.2l1 3H5.9l1-3ZM5 17v-4h14v4H5Z" /></svg>
+            </span>
+            <span class="text-lg font-black tracking-[0.12em]">APEX<span class="font-normal text-gray-400">AUTO</span></span>
+          </a>
+          <nav aria-label="Footer navigation" class="flex flex-wrap gap-x-6 gap-y-3 text-xs text-gray-400">
+            <a href="#about" class="transition hover:text-white">About</a><a href="#services" class="transition hover:text-white">Services</a><a href="#vehicles" class="transition hover:text-white">Vehicles</a><a href="#workshop" class="transition hover:text-white">Workshop</a><a href="#contact" class="transition hover:text-white">Contact</a>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-2 pt-6 text-[11px] text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>© <span id="current-year"></span> APEX AUTO. All rights reserved.</p>
+          <p>Built around better journeys.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const menuButton = document.querySelector("#mobile-menu-btn");
+      const mobileMenu = document.querySelector("#mobile-menu");
+      const openIcon = document.querySelector("#menu-open-icon");
+      const closeIcon = document.querySelector("#menu-close-icon");
+
+      function setMenuOpen(isOpen) {
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+        menuButton.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        mobileMenu.classList.toggle("hidden", !isOpen);
+        openIcon.classList.toggle("hidden", isOpen);
+        closeIcon.classList.toggle("hidden", !isOpen);
+      }
+
+      menuButton.addEventListener("click", () => {
+        setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+      });
+
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenuOpen(false));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+          setMenuOpen(false);
+          menuButton.focus();
+        }
+      });
+
+      const navbar = document.querySelector("#navbar");
+      function updateNavbar() {
+        navbar.classList.toggle("shadow-sm", window.scrollY > 8);
+      }
+      updateNavbar();
+      window.addEventListener("scroll", updateNavbar, { passive: true });
+
+      const revealElements = document.querySelectorAll(".reveal-element");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reducedMotion || !("IntersectionObserver" in window)) {
+        revealElements.forEach((element) => element.classList.add("active"));
+      } else {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        );
+        revealElements.forEach((element) => revealObserver.observe(element));
+      }
+
+      const counters = document.querySelectorAll(".stat-counter");
+      const countUp = (element) => {
+        const target = Number(element.dataset.target);
+        const suffix = element.dataset.suffix || "";
+        const duration = 1200;
+        const start = performance.now();
+
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - (1 - progress) ** 3;
+          element.textContent = `${Math.round(target * eased).toLocaleString()}${suffix}`;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+      };
+
+      if (reducedMotion || !("IntersectionObserver" in window)) {
+        counters.forEach((counter) => {
+          counter.textContent = `${Number(counter.dataset.target).toLocaleString()}${counter.dataset.suffix || ""}`;
+        });
+      } else {
+        const counterObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                countUp(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+        counters.forEach((counter) => counterObserver.observe(counter));
+      }
+
+      const filterButtons = document.querySelectorAll(".vehicle-filter");
+      const vehicleCards = document.querySelectorAll(".vehicle-card");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const selectedFilter = button.dataset.filter;
+
+          filterButtons.forEach((filterButton) => {
+            const isSelected = filterButton === button;
+            filterButton.setAttribute("aria-pressed", String(isSelected));
+            filterButton.classList.toggle("bg-ink", isSelected);
+            filterButton.classList.toggle("text-white", isSelected);
+            filterButton.classList.toggle("border", !isSelected);
+            filterButton.classList.toggle("border-gray-200", !isSelected);
+            filterButton.classList.toggle("text-gray-600", !isSelected);
+          });
+
+          vehicleCards.forEach((card) => {
+            card.hidden = selectedFilter !== "all" && card.dataset.category !== selectedFilter;
+          });
+        });
+      });
+
+      document.querySelector("#contact-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const subject = encodeURIComponent(`APEX AUTO service inquiry — ${formData.get("service")}`);
+        const body = encodeURIComponent(
+          [
+            `Name: ${formData.get("name")}`,
+            `Email: ${formData.get("email")}`,
+            `Phone: ${formData.get("phone") || "Not provided"}`,
+            `Service: ${formData.get("service")}`,
+            "",
+            `Details: ${formData.get("message") || "None provided"}`,
+          ].join("\n")
+        );
+        const status = document.querySelector("#form-status");
+        status.textContent = "Opening your email app with the inquiry details. Add your workshop email address in the code before publishing.";
+        window.location.href = `mailto:YOUR_WORKSHOP_EMAIL@example.com?subject=${subject}&body=${body}`;
+      });
+
+      document.querySelector("#current-year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
